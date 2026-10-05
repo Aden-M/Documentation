@@ -150,6 +150,7 @@ export default defineConfig({
 				{ label: 'Welcome', slug: 'docs' },
 				{ label: 'Which Machine?', slug: 'docs/which-machine' },
 				{ label: 'Contributing to These Docs', slug: 'docs/contributing-to-these-docs' },
+				{ label: 'IT & Network', collapsed: true, items: [{ autogenerate: { collapsed: true, directory: 'docs/IT & Network' } }] },
 				// NOTE: autogenerate.directory matches the on-disk folder path under src/content/docs/
 				// (original names with spaces/&), NOT the slugified route segment.
 				{ label: '3D Scanner', collapsed: true, items: [{ autogenerate: { collapsed: true, directory: 'docs/3D Scanner' } }] },
