@@ -17,7 +17,7 @@ Before using the network, review:
 - The Fabrication Lab network is intended for approved projects requiring IoT, networking, or cloud capabilities.
 - Projects must follow the requirements in this document and receive approval from the Fabrication Lab IT Lead before connecting devices to the network.
 
-The current Fabrication Lab IT Lead is **Aden Mann**, reachable at **adenmann@tamu.edu**.
+Find the Fabrication Lab IT Lead's contact details on the [Contact page](/contact/).
 
 The IT Lead will provide the network configuration and assigned IP range for your approved project before you connect devices.
 
@@ -41,7 +41,7 @@ Personal projects must be **scoped and reviewed by the IT Lead** before devices 
 
 ## Proposing a Project
 
-To request project approval, email **adenmann@tamu.edu** with the subject:
+To request project approval, email the Fabrication Lab IT Lead listed on the [Contact page](/contact/) with the subject:
 
 > **Fab Lab Project Proposal: [Name or Student Organization Name]**
 

@@ -1,7 +1,9 @@
 ---
 // The Fab Lab landing page — a standalone Astro page (NOT a Starlight doc).
-// Recreates site/index.html: Gruvbox-styled hero + info sections.
+// Hero + info sections. Palette and the top-bar/hero accents come from the
+// shared src/styles/site.css ("Signs on Paper" theme); only layout CSS lives here.
 import SiteBanner from '../components/SiteBanner.astro';
+import '../styles/site.css';
 ---
 
 <!doctype html>
@@ -35,7 +37,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
 		/>
 	</head>
 
@@ -136,8 +138,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 				learn and build more effectively.
 			</p>
 			<p>
-				Join our community and stay up to date on lab access, trainings, and events:
-				<a href="https://discord.gg/Tvn9rsBUWH">discord.gg/Tvn9rsBUWH</a>
+				Join our Discord to stay up to date on lab access, trainings, and events — use the <strong>Join us on Discord</strong> button at the top of this page.
 			</p>
 
 			<h2>Trainings</h2>
@@ -147,22 +148,17 @@ import SiteBanner from '../components/SiteBanner.astro';
 				available to help users learn each machine's capabilities.
 			</p>
 			<p>
-				All training materials, manuals, and resources can be accessed in
-				<a href="/docs/">the documentation</a>.
+				All training materials, manuals, and resources can be accessed in <a href="/docs/">the documentation</a>.
 			</p>
 
 			<h2>Policies</h2>
 			<ul>
+				<li>Closed-toed shoes are required in the lab at all times.</li>
 				<li>Food of any kind is NOT permitted in the lab.</li>
 				<li>Only fully enclosed drinks are allowed.</li>
 				<li>Always clean up after yourself after switching stations.</li>
 				<li>Storage of any kind is currently not permitted; take your project with you.</li>
 			</ul>
-
-			<div class="notice">
-				<strong>Notice:</strong> Use of any Fab Lab equipment indicates that you have read and understood
-				the corresponding operations and safety manuals.
-			</div>
 		</main>
 
 		<footer>
@@ -174,31 +170,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 </html>
 
 <style is:global>
-	/* ---- Gruvbox palette (kept in sync with the docs site) ---- */
-	:root[data-theme='dark'] {
-		--bg: #282828;
-		--bg-soft: #32302f;
-		--bg-card: #3c3836;
-		--fg: #ebdbb2;
-		--fg-muted: #a89984;
-		--border: #504945;
-		--accent: #fabd2f;
-		--accent-2: #fe8019;
-		--discord-blurple: #5865f2;
-		--discord-blurple-hover: #4752c4;
-	}
-	:root[data-theme='light'] {
-		--bg: #fbf1c7;
-		--bg-soft: #f2e5bc;
-		--bg-card: #f9f5d7;
-		--fg: #3c3836;
-		--fg-muted: #7c6f64;
-		--border: #d5c4a1;
-		--accent: #b57614;
-		--accent-2: #af3a03;
-		--discord-blurple: #5865f2;
-		--discord-blurple-hover: #454fbf;
-	}
+	/* Palette: src/styles/site.css (imported above). */
 
 	* {
 		box-sizing: border-box;
@@ -211,7 +183,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 	body {
 		background: var(--bg);
 		color: var(--fg);
-		font-family: 'Inter', system-ui, sans-serif;
+		font-family: var(--font-body);
 		line-height: 1.65;
 		-webkit-font-smoothing: antialiased;
 	}
@@ -230,7 +202,6 @@ import SiteBanner from '../components/SiteBanner.astro';
 
 	/* ---- Top bar ---- */
 	.topbar {
-		background: var(--bg-soft);
 		border-bottom: 1px solid var(--border);
 	}
 	.topbar-inner {
@@ -245,7 +216,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 		flex-wrap: wrap;
 	}
 	.topbar .brand {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: var(--font-display);
 		font-weight: 700;
 		font-size: 1.1rem;
 		color: var(--fg);
@@ -270,8 +241,6 @@ import SiteBanner from '../components/SiteBanner.astro';
 	.hero {
 		text-align: center;
 		padding: 5rem 1.5rem 3.5rem;
-		border-bottom: 1px solid var(--border);
-		background: var(--bg-soft);
 	}
 	.hero-ctas {
 		display: flex;
@@ -281,7 +250,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 		margin-top: 2rem;
 	}
 	.hero h1 {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: var(--font-display);
 		font-size: clamp(2.5rem, 6vw, 4rem);
 		margin: 0 0 0.5rem;
 		letter-spacing: -0.02em;
@@ -294,8 +263,6 @@ import SiteBanner from '../components/SiteBanner.astro';
 	}
 	.cta {
 		display: inline-block;
-		background: var(--accent);
-		color: var(--bg);
 		font-weight: 600;
 		text-decoration: none;
 		padding: 0.7rem 1.5rem;
@@ -305,29 +272,18 @@ import SiteBanner from '../components/SiteBanner.astro';
 			background 0.12s ease;
 	}
 	.cta:hover {
-		background: var(--accent-2);
-		color: var(--bg);
 		transform: translateY(-1px);
 	}
 	/* Secondary hero CTA ("Ask your own AI"): outlined so it reads as a companion
-	   action, not competing with the solid primary "Browse the Documentation". */
-	.cta-secondary {
-		background: transparent;
-		color: var(--fg);
-		border: 1px solid var(--border);
-	}
-	.cta-secondary:hover {
-		background: transparent;
-		color: var(--accent);
-		border-color: var(--accent);
-	}
+	   action, not competing with the solid primary "Browse the Documentation".
+	   Colors in site.css. */
 
 	/* ---- Content ---- */
 	main {
 		padding: 3rem 0 4rem;
 	}
 	main h2 {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: var(--font-display);
 		font-size: 1.4rem;
 		margin: 2.5rem 0 0.75rem;
 	}
@@ -392,15 +348,6 @@ import SiteBanner from '../components/SiteBanner.astro';
 	}
 	.discord-mark {
 		flex-shrink: 0;
-	}
-
-	.notice {
-		background: var(--bg-card);
-		border-left: 3px solid var(--accent);
-		border-radius: 6px;
-		padding: 0.9rem 1.1rem;
-		margin-top: 2.5rem;
-		color: var(--fg-muted);
 	}
 
 	footer {

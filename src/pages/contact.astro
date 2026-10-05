@@ -1,10 +1,12 @@
 ---
 // The Fab Lab contact page — a standalone Astro page (NOT a Starlight doc).
-// Same Gruvbox shell + top bar as src/pages/index.astro. Spec (owner-approved
+// Same shell + top bar as src/pages/index.astro (palette: src/styles/site.css). Spec (owner-approved
 // during the Starlight migration): a prominent Discord CTA
-// front-and-center, people cards with visible placeholders (never fake data),
-// and a location/hours section reusing the landing-page copy.
+// front-and-center, people cards for the lab team, and a location/hours
+// section reusing the landing-page copy. Never put fake data in a people
+// card — leave a visible placeholder until the real detail is confirmed.
 import SiteBanner from '../components/SiteBanner.astro';
+import '../styles/site.css';
 ---
 
 <!doctype html>
@@ -38,7 +40,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
 		/>
 	</head>
 
@@ -89,22 +91,64 @@ import SiteBanner from '../components/SiteBanner.astro';
 			<h2>The Team</h2>
 			<div class="people">
 				<div class="person-card">
+					<div class="person-name">Paul Deere</div>
+					<div class="person-role">Founding Professor</div>
+					<ul class="person-links">
+						<li><a href="mailto:paul.deere@tamu.edu">paul.deere@tamu.edu</a></li>
+						<li>
+							<a href="https://www.linkedin.com/in/paul-deere-612884125/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+						</li>
+					</ul>
+				</div>
+				<div class="person-card">
 					<div class="person-name">Jimmy Walker</div>
-					<div class="person-role">President</div>
-					<div class="person-contact">Contact info coming soon</div>
-					<!-- TODO: real contact details -->
+					<div class="person-role">Lead</div>
+					<ul class="person-links">
+						<li><a href="mailto:james_walker83@tamu.edu">james_walker83@tamu.edu</a></li>
+						<li>
+							<a href="https://www.linkedin.com/in/james-walker-mg/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+						</li>
+					</ul>
 				</div>
 				<div class="person-card">
 					<div class="person-name">Aidan Stewart</div>
-					<div class="person-role">Vice President</div>
-					<div class="person-contact">Contact info coming soon</div>
-					<!-- TODO: real contact details -->
+					<div class="person-role">Deputy Lead</div>
+					<ul class="person-links">
+						<li><a href="mailto:aidanstewart05@tamu.edu">aidanstewart05@tamu.edu</a></li>
+						<li>
+							<a href="https://www.linkedin.com/in/aidanstewart05/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+						</li>
+					</ul>
 				</div>
 				<div class="person-card">
-					<div class="person-name">Paul Deere</div>
-					<div class="person-role">Sponsoring Professor</div>
-					<div class="person-contact">Contact info coming soon</div>
-					<!-- TODO: real contact details -->
+					<div class="person-name">Aden Mann</div>
+					<div class="person-role">IT Officer</div>
+					<ul class="person-links">
+						<li><a href="mailto:adenmann@tamu.edu">adenmann@tamu.edu</a></li>
+						<li>
+							<a href="https://www.linkedin.com/in/aden-s-mann/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+						</li>
+					</ul>
+				</div>
+				<div class="person-card">
+					<div class="person-name">Marcus Gou</div>
+					<div class="person-role">Event Coordinator Officer</div>
+					<ul class="person-links">
+						<li><a href="mailto:magou@tamu.edu">magou@tamu.edu</a></li>
+						<li>
+							<a href="https://www.linkedin.com/in/magou/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+						</li>
+					</ul>
+				</div>
+				<div class="person-card">
+					<div class="person-name">Drishti Barnwal</div>
+					<div class="person-role">Social Media Officer</div>
+					<ul class="person-links">
+						<li><a href="mailto:drishti_barnwal@tamu.edu">drishti_barnwal@tamu.edu</a></li>
+						<li>
+							<a href="https://www.linkedin.com/in/drishti-barnwal/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 
@@ -134,31 +178,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 </html>
 
 <style is:global>
-	/* ---- Gruvbox palette (kept in sync with the docs site / landing page) ---- */
-	:root[data-theme='dark'] {
-		--bg: #282828;
-		--bg-soft: #32302f;
-		--bg-card: #3c3836;
-		--fg: #ebdbb2;
-		--fg-muted: #a89984;
-		--border: #504945;
-		--accent: #fabd2f;
-		--accent-2: #fe8019;
-		--discord-blurple: #5865f2;
-		--discord-blurple-hover: #4752c4;
-	}
-	:root[data-theme='light'] {
-		--bg: #fbf1c7;
-		--bg-soft: #f2e5bc;
-		--bg-card: #f9f5d7;
-		--fg: #3c3836;
-		--fg-muted: #7c6f64;
-		--border: #d5c4a1;
-		--accent: #b57614;
-		--accent-2: #af3a03;
-		--discord-blurple: #5865f2;
-		--discord-blurple-hover: #454fbf;
-	}
+	/* Palette: src/styles/site.css (imported above). */
 
 	* {
 		box-sizing: border-box;
@@ -171,7 +191,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 	body {
 		background: var(--bg);
 		color: var(--fg);
-		font-family: 'Inter', system-ui, sans-serif;
+		font-family: var(--font-body);
 		line-height: 1.65;
 		-webkit-font-smoothing: antialiased;
 	}
@@ -190,7 +210,6 @@ import SiteBanner from '../components/SiteBanner.astro';
 
 	/* ---- Top bar ---- */
 	.topbar {
-		background: var(--bg-soft);
 		border-bottom: 1px solid var(--border);
 	}
 	.topbar-inner {
@@ -205,7 +224,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 		flex-wrap: wrap;
 	}
 	.topbar .brand {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: var(--font-display);
 		font-weight: 700;
 		font-size: 1.1rem;
 		color: var(--fg);
@@ -233,11 +252,9 @@ import SiteBanner from '../components/SiteBanner.astro';
 	.hero {
 		text-align: center;
 		padding: 2.5rem 1.5rem 2.25rem;
-		border-bottom: 1px solid var(--border);
-		background: var(--bg-soft);
 	}
 	.hero h1 {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: var(--font-display);
 		font-size: clamp(2rem, 5vw, 3rem);
 		margin: 0 0 0.5rem;
 		letter-spacing: -0.02em;
@@ -285,7 +302,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 		padding: 2.5rem 0 4rem;
 	}
 	main h2 {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: var(--font-display);
 		font-size: 1.4rem;
 		margin: 0 0 0.75rem;
 	}
@@ -307,7 +324,7 @@ import SiteBanner from '../components/SiteBanner.astro';
 		padding: 1.1rem 1.25rem;
 	}
 	.person-name {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: var(--font-display);
 		font-weight: 700;
 		font-size: 1.05rem;
 	}
@@ -316,12 +333,23 @@ import SiteBanner from '../components/SiteBanner.astro';
 		font-size: 0.9rem;
 		margin-top: 0.15rem;
 	}
-	.person-contact {
-		margin-top: 0.75rem;
+	.person-links {
+		list-style: none;
+		margin: 0.75rem 0 0;
+		padding: 0;
 		font-size: 0.85rem;
-		font-style: italic;
-		color: var(--fg-muted);
-		opacity: 0.75;
+	}
+	.person-links li + li {
+		margin-top: 0.3rem;
+	}
+	.person-links a {
+		/* Addresses are longer than the narrowest card column, so let them wrap
+		   rather than push the grid wider. */
+		overflow-wrap: anywhere;
+		text-decoration: none;
+	}
+	.person-links a:hover {
+		text-decoration: underline;
 	}
 
 	.quick-facts {

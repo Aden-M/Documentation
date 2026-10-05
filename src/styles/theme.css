@@ -1,0 +1,464 @@
+/* ==========================================================================
+   "Signs on Paper" theme for Starlight — the Fab Lab docs styled after the
+   ANSI Z535 / ISO 3864 safety signs students already read on the shop
+   floor, set on cool steel greys: blue-grey in dark mode, cool white in
+   light mode.
+
+   - A black header plate with a safety-orange band, in both modes.
+   - Callouts are signs: a signal-word band over a plain panel. The band
+     colour carries the callout's meaning from DOCS_FORMAT.md:
+       :::danger   red band, white lettering  (hard gate, e.g. certification)
+       :::caution  orange band, black lettering, tinted panel (emergency procedure)
+       [!WARNING]  black band, orange lettering (ordinary hazard)
+       [!NOTE]     blue band, white lettering
+   - The current page (nav and sidebar) is a solid orange tag.
+   - Barlow for text (drawn from highway signage), Barlow Condensed for
+     headings; fonts load from Google Fonts in astro.config.mjs.
+   - Square corners, no gradients, no glow.
+
+   Sign colours (safety orange #f9882c, red #c8102e, blue #0057b8, green
+   #00804a, plate #12161b) are fixed in both modes, like physical signs.
+   Everything else is tokenised per mode; text pairs were checked for
+   WCAG contrast (links >= 4.5:1 on the page ground in both modes). The
+   standalone pages (landing, Contact, Ask) read the same palette from
+   src/styles/site.css — keep the two in sync.
+   ========================================================================== */
+
+:root {
+	--sl-font: 'Barlow', system-ui, sans-serif;
+	--tfl-display: 'Barlow Condensed', 'Barlow', sans-serif;
+	--tfl-signal-orange: #f9882c;
+	--tfl-signal-red: #c8102e;
+	--tfl-signal-blue: #0057b8;
+	--tfl-signal-green: #00804a;
+	--tfl-plate: #12161b; /* blue-black steel */
+	--sl-text-base: 1.0625rem;
+}
+
+/* ---- Dark mode ---- */
+:root {
+	--tfl-ink: #f2f2f2;
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #e4e8ec;
+	--sl-color-gray-2: #c9d0d7;
+	--sl-color-gray-3: #a7b0bb;
+	--sl-color-gray-4: #6b7480;
+	--sl-color-gray-5: #434b56;
+	--sl-color-gray-6: #2a3038;
+	--sl-color-black: #22272e;
+
+	--sl-color-accent-low: #3a2412;
+	--sl-color-accent: #f9882c;
+	--sl-color-accent-high: #fbb57a;
+	--sl-color-text-accent: #f9882c;
+
+	--sl-color-bg: #22272e;
+	--sl-color-bg-nav: #1c2026;
+	--sl-color-bg-sidebar: #1c2026;
+	--sl-color-bg-inline-code: #323942;
+	--sl-color-hairline-light: #323942;
+	--sl-color-hairline: #434b56;
+	--sl-color-hairline-shade: #f9882c;
+	--sl-color-text: #e4e8ec;
+	--sl-color-text-invert: #0d0d0d;
+
+	--sl-color-red: #ff5c6c;
+	--sl-color-red-high: #ff8f9a;
+	--sl-color-red-low: #2a3038;
+	--sl-color-orange: #f9882c;
+	--sl-color-orange-high: #fbb57a;
+	--sl-color-orange-low: #3a2b20;
+	--sl-color-yellow: #f9882c;
+	--sl-color-yellow-high: #fbb57a;
+	--sl-color-yellow-low: #2a3038;
+	--sl-color-green: #4cc38a;
+	--sl-color-green-high: #8fdcb6;
+	--sl-color-green-low: #2a3038;
+	--sl-color-blue: #5ea2f0;
+	--sl-color-blue-high: #9cc6f6;
+	--sl-color-blue-low: #2a3038;
+	--sl-color-purple: #b69cf0;
+	--sl-color-purple-high: #d3c4f6;
+	--sl-color-purple-low: #2a3038;
+}
+
+/* ---- Light mode ---- */
+:root[data-theme='light'] {
+	--tfl-ink: #16191d;
+	--sl-color-white: #16191d;
+	--sl-color-gray-1: #24282d;
+	--sl-color-gray-2: #2f343a;
+	--sl-color-gray-3: #545b63;
+	--sl-color-gray-4: #8a929b;
+	--sl-color-gray-5: #cdd2d7;
+	--sl-color-gray-6: #e6e9ec;
+	--sl-color-gray-7: #eceef0;
+	--sl-color-black: #f5f6f7;
+
+	--sl-color-accent-low: #fde7d3;
+	--sl-color-accent: #f9882c;
+	--sl-color-accent-high: #8a3f00;
+	--sl-color-text-accent: #a84a00; /* 5.3:1 on the page, 5.0:1 on the sidebar */
+
+	--sl-color-bg: #f5f6f7;
+	/* Light on purpose: Starlight reuses bg-nav for the phone "On this page"
+	   bar and the theme dropdown. The header paints its own black plate below. */
+	--sl-color-bg-nav: #eceef0;
+	--sl-color-bg-sidebar: #eceef0;
+	--sl-color-bg-inline-code: #e6e9ec;
+	--sl-color-hairline-light: #dde1e5;
+	--sl-color-hairline: #cdd2d7;
+	--sl-color-hairline-shade: #f9882c;
+	--sl-color-text: #24282d;
+	--sl-color-text-invert: #f5f6f7;
+
+	--sl-color-red: #c8102e;
+	--sl-color-red-high: #a00d25;
+	--sl-color-red-low: #f5f6f7;
+	--sl-color-orange: #a84a00;
+	--sl-color-orange-high: #8a3f00;
+	--sl-color-orange-low: #fcefe4;
+	--sl-color-yellow: #a84a00;
+	--sl-color-yellow-high: #8a3f00;
+	--sl-color-yellow-low: #f5f6f7;
+	--sl-color-green: #00804a;
+	--sl-color-green-high: #006239;
+	--sl-color-green-low: #f5f6f7;
+	--sl-color-blue: #0057b8;
+	--sl-color-blue-high: #004592;
+	--sl-color-blue-low: #f5f6f7;
+	--sl-color-purple: #5b3cc4;
+	--sl-color-purple-high: #472f9a;
+	--sl-color-purple-low: #f5f6f7;
+}
+
+/* ---- Header: a black sign plate in both modes, orange band underneath ---- */
+:root {
+	/* Site-wide notification banner (src/routeData.ts): an orange sign strip. */
+	--sl-color-banner-bg: var(--tfl-signal-orange);
+	--sl-color-banner-text: #0d0d0d;
+}
+
+:root header.header {
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #e6e6e6;
+	--sl-color-gray-2: #cfcfcf;
+	--sl-color-gray-3: #a3a3a3;
+	--sl-color-gray-5: #3d3d3d;
+	--sl-color-gray-6: #1f1f1f;
+	--sl-color-black: #12161b;
+	--sl-color-text: #e6e6e6;
+	--sl-color-text-accent: #f9882c;
+	--sl-color-hairline-light: #3d3d3d;
+	background: var(--tfl-plate);
+	border-bottom: 5px solid var(--tfl-signal-orange);
+}
+:root .site-title {
+	font-family: var(--tfl-display);
+	font-weight: 800;
+	font-size: 1.6rem;
+	text-transform: uppercase;
+	letter-spacing: 0.01em;
+	color: #ffffff;
+}
+:root .site-nav a {
+	font-family: var(--tfl-display);
+	font-size: 1.05rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: #e6e6e6;
+}
+:root .site-nav a[aria-current='page'] {
+	color: #0d0d0d;
+	background: var(--tfl-signal-orange);
+	border-bottom-color: transparent;
+	padding-inline: 0.45rem;
+}
+:root site-search button { border-radius: 0; }
+
+/* ---- Headings ---- */
+h1, h2, h3, h4, h5, h6,
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) {
+	font-family: var(--tfl-display);
+	font-weight: 700;
+	letter-spacing: 0.005em;
+}
+:root .content-panel h1#_top {
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: clamp(2.25rem, 5vw, 3.1rem);
+	line-height: 0.98;
+}
+:root .content-panel h1#_top::after {
+	content: '';
+	display: block;
+	width: 4.5rem;
+	height: 6px;
+	margin-top: 0.8rem;
+	background: var(--tfl-signal-orange);
+}
+.sl-markdown-content h2:not(:where(.not-content *)) {
+	font-size: 1.95rem;
+	line-height: 1.1;
+}
+/* The heavy rule goes on Starlight's heading wrapper, which spans the column
+   (the h2 inside it shrinks to its text). */
+.sl-markdown-content .sl-heading-wrapper.level-h2:not(:where(.not-content *)) {
+	padding-top: 0.5rem;
+	border-top: 3px solid var(--tfl-ink);
+}
+.sl-markdown-content h3:not(:where(.not-content *)) {
+	font-size: 1.45rem;
+}
+
+/* ---- Sidebar: condensed caps groups, current page = orange tag ---- */
+:root #starlight__sidebar .top-level > li > details > summary .group-label .large,
+:root #starlight__sidebar .top-level > li > a {
+	font-weight: 600;
+	font-size: 1rem;
+}
+:root #starlight__sidebar [aria-current='page'],
+:root #starlight__sidebar [aria-current='page']:hover,
+:root #starlight__sidebar [aria-current='page']:focus {
+	background: var(--tfl-signal-orange);
+	color: #0d0d0d;
+	font-weight: 700;
+	border-radius: 0;
+	box-shadow: none;
+}
+:root .right-sidebar h2 {
+	font-family: var(--tfl-display);
+	text-transform: uppercase;
+	font-size: 1.05rem;
+}
+:root .pagination-links a { border-radius: 0; border: 2px solid var(--sl-color-hairline); box-shadow: none; }
+:root .pagination-links a:hover { border-color: var(--tfl-ink); }
+:root .pagination-links .link-title { font-family: var(--tfl-display); font-weight: 700; text-transform: uppercase; font-size: 1.25rem; }
+
+/* ==========================================================================
+   GitHub-style blockquote alerts (remark-github-blockquote-alert output:
+   .markdown-alert.markdown-alert-{note,tip,important,warning,caution})
+   ========================================================================== */
+.markdown-alert {
+	padding: 0.75rem 1rem;
+	margin: 1rem 0;
+	border-inline-start: 0.25rem solid var(--gb-alert-color, var(--sl-color-hairline));
+	border-radius: 0.25rem;
+	background-color: var(--sl-color-bg-inline-code);
+	color: var(--sl-color-text);
+}
+
+.markdown-alert > :first-child {
+	margin-top: 0;
+}
+.markdown-alert > :last-child {
+	margin-bottom: 0;
+}
+
+.markdown-alert .markdown-alert-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-weight: 600;
+	margin-bottom: 0.25rem;
+	color: var(--gb-alert-color, var(--sl-color-text));
+}
+
+.markdown-alert .markdown-alert-title svg {
+	fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+	--gb-alert-color: var(--sl-color-blue);
+}
+.markdown-alert.markdown-alert-tip {
+	--gb-alert-color: var(--sl-color-green);
+}
+.markdown-alert.markdown-alert-important {
+	--gb-alert-color: var(--sl-color-purple);
+}
+.markdown-alert.markdown-alert-warning {
+	--gb-alert-color: var(--sl-color-yellow);
+}
+.markdown-alert.markdown-alert-caution {
+	--gb-alert-color: var(--sl-color-red);
+}
+
+/* ---- Callouts as safety signs: a signal-word band over a plain panel ----
+   Band colors follow ANSI Z535: DANGER red / white text, the emergency
+   procedures on safety orange / black text, WARNING on a black band with
+   orange text, NOTICE blue / white. The band carries the title. */
+:root .starlight-aside,
+.markdown-alert {
+	padding: 0;
+	border: 3px solid var(--band-edge);
+	border-radius: 0;
+	background: var(--panel);
+	color: var(--sl-color-text);
+}
+:root .starlight-aside__title,
+.markdown-alert .markdown-alert-title {
+	margin: 0;
+	padding: 0.45rem 1rem;
+	background: var(--band);
+	color: var(--band-fg);
+	font-family: var(--tfl-display);
+	font-weight: 700;
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	line-height: 1.2;
+}
+:root .starlight-aside__content { padding: 0.75rem 1rem 1rem; }
+:root .starlight-aside__title + .starlight-aside__content { margin-top: 0; }
+.markdown-alert > :not(.markdown-alert-title) { padding-inline: 1rem; }
+.markdown-alert > .markdown-alert-title + * { margin-top: 0.75rem; }
+.markdown-alert > :last-child { padding-bottom: 1rem; }
+:root .starlight-aside__content a { color: inherit; }
+
+:root .starlight-aside--danger { --band: var(--tfl-signal-red); --band-fg: #fff; --band-edge: var(--tfl-signal-red); --panel: var(--sl-color-bg); }
+:root .starlight-aside--caution { --band: var(--tfl-signal-orange); --band-fg: #0d0d0d; --band-edge: var(--tfl-signal-orange); --panel: var(--sl-color-orange-low); }
+:root .starlight-aside--note { --band: var(--tfl-signal-blue); --band-fg: #fff; --band-edge: var(--tfl-signal-blue); --panel: var(--sl-color-bg); }
+:root .starlight-aside--tip { --band: var(--tfl-signal-green); --band-fg: #fff; --band-edge: var(--tfl-signal-green); --panel: var(--sl-color-bg); }
+.markdown-alert-warning, .markdown-alert-caution { --band: #0d0d0d; --band-fg: var(--tfl-signal-orange); --band-edge: #0d0d0d; --panel: var(--sl-color-bg); }
+.markdown-alert-note { --band: var(--tfl-signal-blue); --band-fg: #fff; --band-edge: var(--tfl-signal-blue); --panel: var(--sl-color-bg); }
+.markdown-alert-tip { --band: var(--tfl-signal-green); --band-fg: #fff; --band-edge: var(--tfl-signal-green); --panel: var(--sl-color-bg); }
+.markdown-alert-important { --band: #5b3cc4; --band-fg: #fff; --band-edge: #5b3cc4; --panel: var(--sl-color-bg); }
+:root:not([data-theme='light']) .markdown-alert-warning,
+:root:not([data-theme='light']) .markdown-alert-caution { --band-edge: #5a5a5a; }
+
+/* Download button: an orange plate. */
+.sl-markdown-content a.tfl-download-button {
+	display: inline-block;
+	padding: 0.5rem 1.1rem;
+	margin: 0.25rem 0.5rem 0.25rem 0;
+	background: var(--tfl-signal-orange);
+	color: #0d0d0d;
+	border: 2px solid #0d0d0d;
+	border-radius: 0;
+	font-family: var(--tfl-display);
+	font-weight: 800;
+	font-size: 1.15rem;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+.sl-markdown-content a.tfl-download-button:hover { background: #fbb57a; color: #0d0d0d; }
+
+/* ---------------------------------------------------------------------------
+   Layout: pin the right "On this page" rail at a fixed width against the
+   right side of the page (it was crowding the content).
+   Starlight's default lets the rail absorb half of all leftover space, so on
+   wide screens its links drift left toward the article. Instead the rail
+   stays --gb-toc-width wide at the far right, and the article column
+   (max --sl-content-width) centers in the remaining space.
+   Tweak these two numbers to taste.
+--------------------------------------------------------------------------- */
+:root {
+	--gb-toc-width: 13rem;
+	--sl-content-width: 50rem;
+}
+
+/* All of the rail geometry below is scoped to >= 72rem, the breakpoint where
+   Starlight actually shows the right "On this page" rail. Below it there is no
+   rail — the TOC becomes a full-width dropdown that REUSES .right-sidebar-panel
+   .sl-container, so leaving these unscoped shrank the mobile TOC to the rail
+   width. Keep them desktop-only. */
+@media (min-width: 72rem) {
+	:root .right-sidebar-container {
+		width: var(--gb-toc-width);
+	}
+
+	/* Starlight's fixed rail is `width: 100%`, which for a fixed element resolves
+	   against the viewport, not its container — so its contents lay out as if
+	   they had a full screen of room and the "On this page" text spills off the
+	   right edge. Constrain the fixed element to the container width. */
+	:root .right-sidebar {
+		width: var(--gb-toc-width);
+	}
+
+	/* The panel's inner container is sized off --sl-sidebar-width (Starlight's
+	   LEFT-sidebar width, ~300px) on the assumption both rails match — which
+	   we've deliberately broken. Re-derive it from our narrower rail width so
+	   the TOC text wraps inside the visible rail instead of overflowing. */
+	:root .right-sidebar-panel .sl-container {
+		width: calc(var(--gb-toc-width) - 2 * var(--sl-sidebar-pad-x));
+		max-width: 100%;
+	}
+
+	/* The content pane doesn't grow by default, so the row stops short of the
+	   viewport's right edge — grow it so the rail is pushed all the way right,
+	   and center the article between the two sidebars. */
+	:root .main-pane {
+		flex: 1;
+	}
+	:root .content-panel .sl-container {
+		margin-inline: auto;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Left sidebar: dim nested group labels (subfolders, e.g. "Learning
+   Assignments" under a machine) relative to top-level machine categories.
+   Starlight's own SidebarSublist gives every folder — any depth — the same
+   ".large" treatment (bold + --sl-color-white), so nested groups pop as
+   loud as the top-level ones. Keep the bold weight, just quiet the color
+   for anything nested (ul ul, i.e. not the top-level list).
+--------------------------------------------------------------------------- */
+:root #starlight__sidebar ul:not(.top-level) .group-label .large {
+	color: var(--sl-color-gray-3);
+}
+
+/* ---------------------------------------------------------------------------
+   Left sidebar: split the top-level list into two captioned sections —
+   "Start Here" (the plain page links at the top) and "Machines" (the machine
+   folders). Starlight has no sidebar separators, and nesting the items in
+   real config groups pushes every machine a level deeper, so this is CSS
+   only: the caption above the list, and a rule + caption on the first
+   folder that follows a plain link. Adding a page or folder in
+   astro.config.mjs needs no change here, as long as plain links stay above
+   the folders.
+--------------------------------------------------------------------------- */
+:root #starlight__sidebar .top-level::before,
+:root #starlight__sidebar .top-level > li:has(> a) + li:has(> details)::before {
+	display: block;
+	font-family: var(--tfl-display);
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--sl-color-gray-3);
+	padding-block: 0.15rem 0.35rem;
+}
+:root #starlight__sidebar .top-level::before {
+	content: 'Start Here';
+}
+:root #starlight__sidebar .top-level > li:has(> a) + li:has(> details) {
+	margin-top: 0.75rem;
+	padding-top: 0.6rem;
+	border-top: 2px solid var(--sl-color-hairline);
+}
+:root #starlight__sidebar .top-level > li:has(> a) + li:has(> details)::before {
+	content: 'Machines';
+}
+
+/* ---------------------------------------------------------------------------
+   Side-by-side images. Markdown images written adjacent (same line, no blank
+   line between them) land in one paragraph and render as an even row; put a
+   blank line between them to keep the default stacked layout. No special
+   syntax for authors — just where the line breaks go. Wraps to stacked on
+   narrow screens.
+--------------------------------------------------------------------------- */
+.sl-markdown-content p:has(img + img) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	align-items: flex-start;
+}
+.sl-markdown-content p:has(img + img) img {
+	flex: 1 1 0;
+	min-width: min(15rem, 100%);
+	width: auto;
+	height: auto;
+	margin: 0;
+}

@@ -7,7 +7,7 @@ decisions. Deeper detail lives in the files it links to.
 ## What this is
 
 The public documentation site for **The Fab Lab**, Texas A&M University's student-run
-makerspace: machine manuals, learning assignments, shop standards, and the lab-wide
+makerspace: machine manuals, activities, shop standards, and the lab-wide
 Safety & Emergency Manual. Repo `TFL-at-TAMU/Documentation` — **public**. Built with
 **Astro + Starlight** (versions pinned exact in `package.json`), hosted on
 **Cloudflare Pages**, which auto-deploys `main` (~2 minutes).
@@ -23,15 +23,16 @@ no deadline; a page shipped 90% right is worse than one done right.
 
 | Path | What it is |
 |---|---|
-| `src/content/docs/docs/**` | The manuals and assignments (Starlight content collection). Folders become sidebar groups; original names with spaces/`&` are kept and Astro slugifies the routes. `index.md` is the docs home. |
+| `src/content/docs/docs/**` | The manuals and activities (Starlight content collection). Folders become sidebar groups; original names with spaces/`&` are kept and Astro slugifies the routes. `index.md` is the docs home. |
 | `src/content/docs/safety.md` | The Safety & Emergency Manual (`/safety/`). |
 | `src/pages/` | Custom non-Starlight pages: `index.astro` (landing), `contact.astro`, `ask.astro` ("Ask your own AI" — hands visitors a prompt pointing their AI at `/llms-full.txt`). |
 | `src/components/Header.astro` | Starlight header override adding the shared Home / Documentation / Safety / Contact nav (+ `MobileMenuFooter.astro`). |
+| `src/components/Comments.astro` | The page comment box (giscus, backed by GitHub Discussions), added under every docs page by the `Footer.astro` override. Settings and the one-time GitHub setup are in `src/giscusConfig.ts`; `giscus.json` at the repo root limits which origins may load our discussions. A page can opt out with `comments: false` in its frontmatter. |
 | `src/routeData.ts` | The site-wide notification banner. Edit `BANNER_CONTENT` / flip `BANNER_ENABLED` there — nothing else to touch. |
-| `src/styles/gruvbox.css` | The theme (Gruvbox light/dark; Inter body, Space Grotesk headings). |
+| `src/styles/theme.css` | The docs theme ("Signs on Paper": safety-sign styling on cool steel greys — black header plate, safety-orange current-page tags, callouts as signs with a signal-word band whose colour carries the callout's meaning; Barlow body, Barlow Condensed headings; square corners, no glow or gradients). `src/styles/site.css` carries the same palette for the standalone pages — change both together. |
 | `astro.config.mjs` | Starlight config: sidebar, edit-link, llms-txt plugin, fonts, and the old-Docsify hash-redirect shim (its slug rule is documented inline — keep it intact). |
 | `public/files/` | Downloadable binaries (`.stl`, `.pdf`, `.ods`, `.zip`) served at `/files/…`. |
-| `public/_redirects` | Cloudflare Pages 301s. **Every page rename or merge adds a line here.** |
+| `public/_redirects` | Cloudflare Pages redirects. **Every page rename or merge adds a 301 line here.** Also holds the **machine permalinks** (`/m/<machine>/`, 302s) that the QR sticker on each machine points at — when a machine page moves, re-point its permalink line in the same change. `scripts/check-redirects.mjs` runs after `astro build` and fails the build if any redirect target is missing from `dist/`. |
 | `public/_headers` | Cache policy (`max-age=0, must-revalidate` — deploys were repeatedly masked by browser caching before this). |
 | `DOCS_FORMAT.md` | **The format standard for machine pages.** Read it before writing or restructuring any machine content. |
 | `REVAMP_PROMPT.md` | Kickoff prompt for per-machine doc-revamp sessions (workflow details below). |
@@ -67,7 +68,8 @@ work around the check.
   point of hazard, link/redirect mechanics, safety content on the machine page itself).
 - **Warnings must stay credible**: callouts only for real hazards. Over-warning trains
   people to ignore warnings.
-- **Renamed or merged a page? Add a 301** to `public/_redirects` in the same change.
+- **Renamed or merged a page? Add a 301** to `public/_redirects` in the same change, and
+  if the page has a `/m/<machine>/` permalink there, re-point it too.
 - **No subagents** — the owner pays per token and prefers direct work.
 - **Aesthetic/CSS decisions belong to the owner**: render options and show them before
   committing; they often prefer to hand-tweak the file themselves.
@@ -102,7 +104,8 @@ history causes phantom conflicts).
 
 **Before every merge, verify behaviorally — never just by eye:**
 
-1. `npm run build` completes clean (this also validates internal links and images).
+1. `npm run build` completes clean (this also validates internal links, images, and
+   every `_redirects` target).
 2. Every internal link and slugged route you touched resolves in `dist/`.
 3. No page renders two `<h1>` elements.
 4. Screenshot the built page at desktop **and** ~390 px mobile width, and actually look
@@ -116,12 +119,26 @@ review comment (`.github/workflows/`).
 The machine docs are being rebuilt one machine per session against `DOCS_FORMAT.md`.
 Kick off such a session with the prompt in `REVAMP_PROMPT.md` (keep that file's
 "already done" list current as machines ship). Per machine: merge the operations +
-safety manual pair into one machine page; slim assignments to lean exercises; clean
-Google-Docs export damage (`##` on paragraphs, `[[a]]` comment markers,
-google-redirect URLs, metadata blocks); add `_redirects` 301s for every retired URL;
-repoint inbound links. The **3D Scanner trio** (manual + "How 3D Scanning Works" +
-lean assignment) is the gold standard to imitate; Laser Cutter, CNC Mill, Solder
-Reflow Oven, and NeoDen Pick & Place are also done.
+safety manual pair into one machine page; move the machine's guided exercises into
+an `Activities/` subfolder named for what the student makes; clean Google-Docs export
+damage (`##` on paragraphs, `[[a]]` comment markers, google-redirect URLs, metadata
+blocks); add `_redirects` 301s for every retired URL; repoint inbound links. The
+**3D Scanner trio** (manual + "How 3D Scanning Works" + lean activity) is the gold
+standard to imitate; Laser Cutter, CNC Mill, Solder Reflow Oven, NeoDen Pick & Place,
+
+Cricut, the Bambu Lab X1C, and the Elegoo Saturn 4 Ultra + Mercury 3.0 wash/cure pair
+are also done.
+
+Not every "machine" is one machine. The **Electric Workbenches** are five instruments on
+a shared surface, so they became a bench page (shared hazards, the general workflow,
+cleanup, an index of the instruments) plus one page per instrument under `Instruments/`.
+Follow that shape for any other multi-instrument station rather than forcing it into a
+single machine page.
+
+Guided exercises are called **activities**, not "learning assignments" — see the
+"Activities" section of `DOCS_FORMAT.md`. Machines revamped before that rename
+(3D Scanner, Laser Cutter, CNC Mill) still use the old naming; rename them when you
+next touch them, with a 301 for each retired URL.
 
 ## Talking to the owner
 

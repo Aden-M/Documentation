@@ -33,7 +33,15 @@ export default defineConfig({
 				// errorOnInvalidHashes is off because pre-revamp pages still carry
 				// dead Google-Docs comment anchors (#cmnt1 etc.); the per-machine
 				// revamps strip those — flip it back on once they're done.
-				starlightLinksValidator({ errorOnInvalidHashes: false }),
+				starlightLinksValidator({
+					errorOnInvalidHashes: false,
+					// The validator only knows Starlight-managed routes, so links from docs
+					// pages to the custom pages in src/pages/ fail as "invalid link to custom
+					// page" even though they resolve. These two are linked from docs/index.md.
+					// If a custom page is ever removed, remove its line here too — nothing else
+					// will catch the dead link.
+					exclude: ['/ask/', '/contact/'],
+				}),
 				starlightLlmsTxt({
 					projectName: 'The Fab Lab — Texas A&M University makerspace documentation',
 					description:
@@ -64,9 +72,10 @@ export default defineConfig({
 			editLink: {
 				baseUrl: 'https://github.com/TFL-at-TAMU/Documentation/edit/main/',
 			},
-			customCss: ['./src/styles/gruvbox.css'],
+			customCss: ['./src/styles/theme.css'],
 			head: [
-				// Fonts matching the current site: Inter (body) + Space Grotesk (headings).
+				// Theme fonts: Barlow (body) + Barlow Condensed (headings). Keep in sync with the
+				// font link in src/pages/index.astro, contact.astro and ask.astro.
 				{
 					tag: 'link',
 					attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -83,7 +92,7 @@ export default defineConfig({
 					tag: 'link',
 					attrs: {
 						rel: 'stylesheet',
-						href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap',
+						href: 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap',
 					},
 				},
 				// Old-Docsify-hash compatibility shim. Old deep links look like
@@ -139,6 +148,7 @@ export default defineConfig({
 			],
 			sidebar: [
 				{ label: 'Welcome', slug: 'docs' },
+				{ label: 'Which Machine?', slug: 'docs/which-machine' },
 				{ label: 'Contributing to These Docs', slug: 'docs/contributing-to-these-docs' },
 				{ label: 'IT & Network', collapsed: true, items: [{ autogenerate: { collapsed: true, directory: 'docs/IT & Network' } }] },
 				// NOTE: autogenerate.directory matches the on-disk folder path under src/content/docs/
@@ -150,12 +160,13 @@ export default defineConfig({
 				{ label: 'Laser Cutter', collapsed: true, items: [{ autogenerate: { collapsed: true, directory: 'docs/Laser Cutter' } }] },
 				{ label: 'PCB Machines', collapsed: true, items: [{ autogenerate: { collapsed: true, directory: 'docs/PCB Machines' } }] },
 				{ label: 'SLA Printers', collapsed: true, items: [{ autogenerate: { collapsed: true, directory: 'docs/SLA Printers' } }] },
-				{ label: 'Templates', collapsed: true, items: [{ autogenerate: { collapsed: true, directory: 'docs/Templates' } }] },
 				{ label: 'Workbenches', collapsed: true, items: [{ autogenerate: { collapsed: true, directory: 'docs/Workbenches' } }] },
 			],
 			components: {
 				Header: './src/components/Header.astro',
 				MobileMenuFooter: './src/components/MobileMenuFooter.astro',
+				// Wraps the default footer and adds the giscus comment box below it.
+				Footer: './src/components/Footer.astro',
 			},
 		}),
 	],
