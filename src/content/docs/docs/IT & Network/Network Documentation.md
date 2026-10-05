@@ -1,8 +1,6 @@
 ---
-title: Network_Documentation.md
+title: Network Documentation
 ---
-
-# Fabrication Lab Network Documentation
 
 The Fabrication Lab network is available for testing and validating IoT projects, prototyping networked systems, and developing local or cloud-integrated services.
 
@@ -19,17 +17,9 @@ Before using the network, review:
 - The Fabrication Lab network is intended for approved projects requiring IoT, networking, or cloud capabilities.
 - Projects must follow the requirements in this document and receive approval from the Fabrication Lab IT Lead before connecting devices to the network.
 
-> The current Fabrication Lab IT Lead is **Aden Mann**, reachable at **adenmann@tamu.edu**.
+The current Fabrication Lab IT Lead is **Aden Mann**, reachable at **adenmann@tamu.edu**.
 
-## Network Structure
-
-The Fabrication Lab operates three networks:
-
-| Network Name | IP Range | Intended Use |
-|---|---|---|
-| `TamuFabLab_MACHINES` | `10.10.2.1 - 10.10.2.255` | Fabrication equipment and machine management |
-| `TamuFabLab_USER` | `10.10.1.1 - 10.10.1.255` | Student projects and devices |
-| `TamuFabLab_Admin` | `192.168.1.1 - 192.168.1.255` | Staff network testing and administration |
+The IT Lead will provide the network configuration and assigned IP range for your approved project before you connect devices.
 
 ## Project Approval
 
@@ -74,4 +64,5 @@ Include a brief description of the project, expected network requirements, and t
 5. **Permit staff inspection.**  
    Project owners must allow Fabrication Lab staff to inspect connected equipment or network configurations with at least 24 hours' notice.
 
-> **Projects that violate these requirements may be disconnected from the Fabrication Lab network at the discretion of the Fabrication Lab IT Lead, with or without prior notice.**
+> [!IMPORTANT]
+> Projects that violate these requirements may be disconnected from the Fabrication Lab network at the discretion of the Fabrication Lab IT Lead, with or without prior notice.

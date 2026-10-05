@@ -41,3 +41,6 @@
 
 # Studio Standards page removed; send its old URL to the docs index.
 /docs/studio-standards/ /docs/ 301
+
+# Network documentation renamed to match the site's folder and page conventions.
+/docs/it_network/network_documentation/ /docs/it--network/network-documentation/ 301
